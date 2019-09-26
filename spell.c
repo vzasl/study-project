@@ -30,8 +30,10 @@ bool load_dictionary(const char* dictionary_file, hashmap_t hashtable[]) {
 	// loop through the lines of dictionary file
 	// read each word into the buffer
 	
-	while (fscanf(dict, "%s", buffer) > 0)
+	while (fscanf(dict, "%45s", buffer) > 0)
 	{
+		//buffer[LENGTH] = '\0';
+		
 		// Allocate memory for a new node.
         node* new_node = malloc(sizeof(node));
         // Set node's next pointer to NULL.
@@ -121,7 +123,7 @@ int check_words(FILE* fp, hashmap_t hashtable[], char * misspelled[])
 	{
 		
 		// read the line
-		int i, j;
+		int i, j, len;
 		char *found, *word;
 		char *string = strdup(line);
 		
@@ -129,28 +131,36 @@ int check_words(FILE* fp, hashmap_t hashtable[], char * misspelled[])
 		{
 			word = strdup(found);
         
-			for(i = 0; word[i] != '\0'; ++i)
+			
+			
+			// removing punctuation from beginning of the word
+			while (ispunct(word[0]))
 			{
-				while (!( (word[i] >= 'a' && word[i] <= 'z') || (word[i] >= 'A' && word[i] <= 'Z') || (word[i] >= '0' && word[i] <= '9') || word[i] == '\0' || word[i] == '\'') )
+				len = strlen(word);
+				for (i = 0; i < len; i++)
 				{
-					for(j = i; word[j] != '\0'; ++j)
-					{
-						word[j] = word[j+1];
-					}
-					word[j] = '\0';
+					word[i] = word[i + 1];
 				}
 			}
-		
-        
-			if(!check_word(word, hashtable))
+			
+			// removing punctuation from end of the word
+			while (ispunct(word[strlen(word) - 1]) || (word[strlen(word) - 1] == '\n'))
 			{
-				// append word to misspelled
-				misspelled[num_misspelled] = word;
-				
-				// increment num_misspelled
-				num_misspelled++;
+				word[strlen(word) - 1] = '\0';
 			}
 			
+			// ignoring words with 0 length
+			if (strlen(word) > 0)
+			{
+				if(!check_word(word, hashtable))
+				{
+					// append word to misspelled
+					misspelled[num_misspelled] = word;
+					
+					// increment num_misspelled
+					num_misspelled++;
+				}
+			}
 		}
 		
 	}
