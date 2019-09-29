@@ -36,6 +36,11 @@ bool load_dictionary(const char* dictionary_file, hashmap_t hashtable[]) {
 		
 		// Allocate memory for a new node.
         node* new_node = malloc(sizeof(node));
+        if (new_node == NULL)
+        {
+			return false;
+		}
+        
         // Set node's next pointer to NULL.
         new_node->next = NULL;
         
@@ -123,7 +128,7 @@ int check_words(FILE* fp, hashmap_t hashtable[], char * misspelled[])
 	{
 		
 		// read the line
-		int i, j, len;
+		int i, len;
 		char *found, *word;
 		char *string = strdup(line);
 		
