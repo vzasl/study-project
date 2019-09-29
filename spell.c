@@ -78,6 +78,21 @@ bool check_word(const char* word, hashmap_t hashtable[])
 	char stripped_word[strlen(word)];
 	strcpy(stripped_word, word);
 	
+	// return TRUE if only numbers
+	int non_digits = 0;
+	for (int i = 0; i < strlen(stripped_word); i++)
+	{
+		if ((stripped_word[i] < 48) || (stripped_word[i] > 57))
+		{
+			non_digits++;
+		}
+	}
+	
+	if (non_digits == 0) 
+	{
+		return true;
+	}
+	
 	// set int bucket to the output of hash_function(word)
 	int bucket = hash_function(stripped_word);
 	
@@ -169,6 +184,19 @@ int check_words(FILE* fp, hashmap_t hashtable[], char * misspelled[])
 		}
 		
 	}
+	
+	// free the memory allocated for hashmap
+	for (int i = 0; i < HASH_SIZE;i++)
+	{
+		node* cursor = hashtable[i];
+		
+		while (cursor != NULL)
+		{
+			node* temp = cursor;
+			cursor = cursor->next;
+			free(temp);
+        }
+    } 
 
 	return num_misspelled;
 }
