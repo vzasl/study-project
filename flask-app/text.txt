@@ -1,0 +1,1 @@
+If you do not spec,ify a border for the tadle, it will be displayed wihout borders.

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<h3>Login</h3>
+
+	<form action="/login" method="POST">
+		{{ form.hidden_tag() }}
+		<table>
+		<tr>
+			<td>{{ form.username.label }}</td><td>{{ form.username }}</td>
+		</tr>
+		<tr>
+			<td>{{ form.password.label }}</td><td>{{ form.password }}</td>
+		</tr>
+		<tr>
+			<td>{{ form.two_factor.label }}</td><td>{{ form.two_factor }}</td>
+		</tr>
+		</table>
+		<input type="submit" value="Log in">
+	</form>
+	
+{% endblock %}
+

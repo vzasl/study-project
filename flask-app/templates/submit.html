@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+	
+	<form action="" method="POST">
+		{{ form.hidden_tag() }}
+		<h3>{{ form.text.label }}</h3>
+		{{ form.text }}<br>
+		<input type="submit" value="Submit">
+	</form>
+	
+	{% if text %}
+		<p id="textout"><strong>Text you entered:</strong><br>{{ text }}</p>
+		<p id="misspelled"><strong>Misspelled words:</strong><br>{{ words }}</p>
+	{% endif %}
+	
+
+{% endblock %}
